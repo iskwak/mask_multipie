@@ -1,0 +1,46 @@
+% multipie_image = get_multipie_image(multipie_path, subject, session, pose, expression, lighting)
+%
+% Given a path to the multipie root, subject, pose, expression, 
+% session, and lighting, it returns the path of the image.
+%
+% inputs:
+%  multipie_path = the root of multipie, this directory should have
+%    autorun, data, Documentation, meta and so on.
+%  subject = subject number (number)
+%  session = session number (number)
+%  expression = expression number (number)
+%  pose = pose number (string)
+%  lighting = lighting number (number)
+% outputs:
+%  multipie_image path
+% side effects:
+%  none
+%
+
+% --------
+% Sam Kwak
+% Copyright 2012
+function multipie_image = get_multipie_image(multipie_path, subject, session, expression, pose, lighting)
+
+  multipie_path = fullfile( ...
+    multipie_path, ...
+    'data', ...
+    ['session' sprintf('%0.2d', session)], ...
+    'multiview', ...
+    sprintf('%0.3d', subject), ...
+    sprintf('%0.2d', expression), ...
+    pose);
+
+  pose2 = strrep(pose, '_', '');
+  img_name = [ ...
+    sprintf('%0.3d', subject), '_', ...
+    sprintf('%0.2d', session), '_', ...
+    sprintf('%0.2d', expression), '_', ...
+    pose2, '_', ...
+    sprintf('%0.2d', lighting), ...
+    '.png' ...
+    ];
+
+  multipie_image = fullfile(multipie_path, img_name);
+
+end % get_multipie_image(...)

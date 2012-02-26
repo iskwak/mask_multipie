@@ -26,14 +26,23 @@ function save_create_segments(multipie_image, cache_dir, output_dir)
     pose = parts{4};
     pose = [pose(1:2), '_', pose(3)];
     
-    base_output_name = fullfile(output_dir, ['session', parts{2}], parts{1}, parts{3}, pose, basename);
-    base_output_dir = fileparts(base_output_name);
+    base_output_name1 = fullfile(output_dir, 'masks', ['session', parts{2}], parts{1}, parts{3}, pose, basename);
+    base_output_name2 = fullfile(output_dir, 'segments', ['session', parts{2}], parts{1}, parts{3}, pose, basename);
+    
+    base_output_dir = fileparts(base_output_name1);
+    if ~exist(base_output_dir, 'dir')
+        [parent_dir, sub_dir] = fileparts(base_output_dir);
+        mkdir(parent_dir, sub_dir);
+    end
+    base_output_dir = fileparts(base_output_name2);
     if ~exist(base_output_dir, 'dir')
         [parent_dir, sub_dir] = fileparts(base_output_dir);
         mkdir(parent_dir, sub_dir);
     end
     
-    imwrite(segments, [base_output_name, '_contour.png']);
-    imwrite(segmented, [base_output_name, '_contour_masked.png']);
+    
+    %imwrite(segments, [base_output_name, '_contour.png']);
+    imwrite(segments, [base_output_name1, '_mask.png']);
+    imwrite(segmented, [base_output_name2, '_contour_masked.png']);
     
 end % save_create_segments(...)

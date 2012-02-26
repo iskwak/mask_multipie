@@ -31,6 +31,11 @@ function mask = load_cached_skin_info(multipie_image, cached_dir)
         pose = parts{4};
         mask =  skin_info(multipie_dir, pose);
         
+        if ~exist(mean_mask_dir, 'dir')
+            [path_to_dir, mask_dir] = fileparts(mean_mask_dir);
+            mkdir(path_to_dir,  mask_dir);
+        end
+        
         save(full_mat_name, 'mask');
     else
         mask = load(full_mat_name);

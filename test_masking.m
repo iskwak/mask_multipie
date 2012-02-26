@@ -11,7 +11,7 @@ addpath('ls_sparse/util');
 addpath('matting');
 
 % setup code to traverse the multipie database structure
-base_to_multipie = '/media/FreeAgent GoFlex Drive/datasets/multiPIE/data/';
+base_to_multipie = '/databases/multiPIE/data/';
 
 %% setup the desired multipie settings
 % expressions to process
@@ -49,10 +49,10 @@ end
 
 detections_dir = fullfile(base_cache_dir, 'detections');
 
-out_dir = '~/Research/multiPIE_segmentation/cached_data/segments';
-if ~exist(out_dir, 'dir')
-    mkdir(out_dir);
-end
+%out_dir = '~/Research/multiPIE_segmentation/cached_data/segments';
+%if ~exist(out_dir, 'dir')
+%    mkdir(out_dir);
+%end
 
 
 %% setup the output dir
@@ -93,10 +93,10 @@ for i_session=1:length(sessions)
         folders = {folders(3:end).name};
         imgs = cellfun(@(x) fullfile(current_path, x), folders, 'uniformoutput', false);
         
-        for i_img = 2:2%length(imgs)
+        for i_img = 1:2%length(imgs)
             disp(['subj: ', subjects{i_subj}, ', processing image: ', num2str(i_img), ' of ', num2str(length(imgs))]);
             [~, basename] = fileparts(imgs{i_img});
-            save_create_segments(imgs{i_img}, base_cache_dir, out_dir);
+            save_create_segments(imgs{i_img}, base_cache_dir, base_cache_dir);
         end
         
     end % loop over subjects

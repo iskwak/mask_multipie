@@ -38,17 +38,22 @@ function mask = create_foreground_mask(changed_mask, detection, multipie_image)
 
     % modify the detection face box based on the pose of the multipie
     % image.
-    [rows,cols, ~] = size(mask);
+    %[rows,cols, ~] = size(mask);
     [~, basename] = fileparts(multipie_image);
     parts = regexp(basename, '_', 'split');
     pose = parts{4};
-    detection = modify_detection(detection, pose, rows);
+    %detection = modify_detection(detection, pose, rows);
+    detection = modify_detection(detection, pose);
     
     % next, use the face box within the detection to get some information
-    width = detection.width*cols/100;
-    height = detection.height*rows/100;
-    minx = floor(detection.center.x*cols/100 - width/2);
-    miny = max(floor(detection.center.y*rows/100 - height/2), 1);
+    %width = detection.width*cols/100;
+    %height = detection.height*rows/100;
+    %minx = floor(detection.center.x*cols/100 - width/2);
+    %miny = max(floor(detection.center.y*rows/100 - height/2), 1);
+    width = detection.width;
+    height = detection.height;
+    minx = floor(detection.center_x - width/2);
+    miny = max(floor(detection.center_y - height/2), 1);
     mask2 = zeros(size(mask));
     for i_width = 1:width
         for i_height = 1:height
@@ -65,7 +70,7 @@ function mask = create_foreground_mask(changed_mask, detection, multipie_image)
     %strelem = strel('disk', 3);
     %mask2 = imdilate(mask2, strelem);
     %figure;imshow(mask2);
-    
+    mask2 = imfill(mask2);
     
     mask = mask2;
 end % create_foreground_mask(...)
@@ -75,13 +80,13 @@ function detection = modify_detection(detection, pose, rows)
 
   switch pose
     case '010'
-      maxy = detection.center.y + detection.height/2;
+      maxy = detection.center_y + detection.height/2;
       detection.height = maxy;
-      detection.center.y = maxy/2;
+      detection.center_y = maxy/2;
     case '041'
-      maxy = detection.center.y + detection.height/2;
+      maxy = detection.center_y + detection.height/2;
       detection.height = maxy;
-      detection.center.y = maxy/2;
+      detection.center_y = maxy/2;
   end
 
 end % modify_detection(...)

@@ -42,7 +42,9 @@ function alpha_mask = load_cached_alpha_mat(cache_dir, img_name, foreground_mask
         
         alpha_mask = do_alpha_mat(img, scribbled);
         
-        
+        if ~exist(fileparts(full_mat_name), 'dir')
+            mkdir(fileparts(full_mat_name));
+        end
         
         save(full_mat_name, 'alpha_mask', 'scribbled', 'foreground_mask', 'changing_mask');
     else

@@ -26,7 +26,8 @@ function [segments, segmented] = segment_multipie(multipie_image, cache_dir)
     % apply active contours on the desired image with the alpha mask
     % return the head mask
     changed_mask = load_cached_skin_info(multipie_image, cache_dir);
-    detection = load_multipie_facecom_detection(cache_dir, multipie_image);
+    %detection = load_multipie_facecom_detection(cache_dir, multipie_image);
+    detection = GetMultiPieFiducials(multipie_image);
     foreground_mask = create_foreground_mask(changed_mask, detection, multipie_image);
     alpha_mask = load_cached_alpha_mat(cache_dir, multipie_image, foreground_mask, changed_mask);
 
